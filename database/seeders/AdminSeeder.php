@@ -36,6 +36,25 @@ class AdminSeeder extends Seeder
                 'create-roles',
                 'view-roles',
             ],
+            'District' => [
+                'district-management',
+                'district-delete',
+                'district-edit',
+                'district-create',
+            ],
+            'Zone' => [
+                'zone-management',
+                'zone-delete',
+                'zone-edit',
+                'zone-create',
+            ],
+            'Candidate' => [
+                'candidate-management',
+                'candidate-delete',
+                'candidate-edit',
+                'candidate-create',
+                'candidate-view',
+            ],
         ];
 
         foreach ($modules as $module => $permissions) {

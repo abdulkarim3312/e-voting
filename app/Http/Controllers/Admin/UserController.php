@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\ValidationException;
+use Session;
 
 
 
@@ -71,6 +72,9 @@ class UserController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+        Session::put('permissions', $permissions);
 
         return redirect()->route('dashboard');
     }

@@ -7,10 +7,9 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Backend\DistrictController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/admin/login', [UserController::class, 'adminLogin'])->name('login');
 Route::post('/admin/login/post', [UserController::class, 'adminLoginPost'])->name('admin-login-post');
@@ -32,8 +31,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::resource('permissions', PermissionController::class);
 
     Route::post('/logout', [UserController::class, 'adminLogout'])->name('admin-logout');
+
+
+    Route::controller(DistrictController::class)->group(function () {
+        Route::get('/district-manage', 'districtManage')->name('district.manage');
+        Route::get('/district-create', 'districtCreate')->name('district.create');
+        Route::post('/district-upload', 'districtUpload')->name('district.upload');
+        Route::post('/district-update', 'districtUpdate')->name('district.update');
+        
+        Route::get('/district-edit/{id}', 'districtEdit')->name('district.edit');
+        Route::get('/district-delete/{id}', 'districtDelete')->name('district.delete');
+    });
+
+
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     Lfm::routes();
 });
+
+
+
+

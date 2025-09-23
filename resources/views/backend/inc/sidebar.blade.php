@@ -28,14 +28,15 @@
 
       <!-- Dashboard Header -->
       <li class="menu-header mt-7">
-        <span class="menu-header-text" data-i18n="Dashboard">Dashboard</span>
+        <span class="menu-header-text" data-i18n="Dashboard">ড্যাশবোর্ড</span>
       </li>
+
 
       <!-- Dashboard Menu -->
       <li class="menu-item">
         <a href="{{ route('dashboard') }}" class="menu-link">
           <i class="menu-icon icon-base ri ri-home-smile-line"></i>
-          <div data-i18n="Dashboards">Dashboard</div>
+          <div data-i18n="Dashboards">ড্যাশবোর্ড</div>
         </a>
       </li>
       @php
@@ -48,13 +49,13 @@
         <li class="menu-item {{ $isUserManagementOpen ? 'active open' : '' }}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon icon-base ri ri-user-3-line"></i>
-            <div data-i18n="Dashboards">User Management</div>
+            <div data-i18n="Dashboards">ব্যবহারকারী ব্যবস্থাপনা</div>
           </a>
           <ul class="menu-sub">
             @can('view-users')
             <li class="menu-item {{ $isUserActive ? 'active' : '' }}">
               <a href="{{ route('users.index') }}" class="menu-link">
-                <div data-i18n="Dashboard">User</div>
+                <div data-i18n="Dashboard">ব্যবহারকারী</div>
               </a>
             </li>
             @endcan
@@ -62,7 +63,7 @@
             @can('view-roles')
                 <li class="menu-item {{ $isRoleActive ? 'active' : '' }}">
                     <a href="{{ route('roles.index') }}" class="menu-link">
-                        <div data-i18n="Blank Pages">Role</div>
+                        <div data-i18n="Blank Pages">ভূমিকা</div>
                     </a>
                 </li>
             @endcan
@@ -114,6 +115,72 @@
               </ul>
           </li>
       @endif
+      
+     
+
+      @php
+          $isDistrictActive = request()->routeIs('district.manage', 'district.create', 'district.edit');
+      @endphp
+
+      @if(in_array('district-management', session('permissions', [])))
+      <li class="menu-item {{ $isDistrictActive ? 'active open' : '' }}">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon fas fa-map-marker-alt"></i>
+              <div data-i18n="District">জেলা ব্যবস্থাপনা</div>
+          </a>
+          <ul class="menu-sub">
+              @if(in_array('district-management', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('district.manage') ? 'active' : '' }}">
+                  <a href="{{ route('district.manage') }}" class="menu-link">
+                      <div>জেলা তালিকা দেখুন</div>
+                  </a>
+              </li>
+              @endif
+
+              @if(in_array('district-create', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('district.create') ? 'active' : '' }}">
+                  <a href="{{ route('district.create') }}" class="menu-link">
+                      <div>জেলা যোগ করুন</div>
+                  </a>
+              </li>
+              @endif
+          </ul>
+      </li>
+      @endif
+     
+
+      @php
+          $isDistrictActive = request()->routeIs('zone.manage', 'zone.create', 'zone.edit');
+      @endphp
+
+      @if(in_array('zone-management', session('permissions', [])))
+      <li class="menu-item {{ $isDistrictActive ? 'active open' : '' }}">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon fas fa-chart-area"></i>
+              <div data-i18n="Zone">নির্বাচনী জোন</div>
+          </a>
+          <ul class="menu-sub">
+              @if(in_array('zone-management', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('zone.manage') ? 'active' : '' }}">
+                  <a href="" class="menu-link">
+                      <div>নির্বাচনী জোন দেখুন</div>
+                  </a>
+              </li>
+              @endif
+
+              @if(in_array('district-create', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('district.create') ? 'active' : '' }}">
+                  <a href="" class="menu-link">
+                      <div>জোন যোগ করুন</div>
+                  </a>
+              </li>
+              @endif
+          </ul>
+      </li>
+      @endif
+
+
+
     </ul>
 </aside>
 
