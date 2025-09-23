@@ -1,0 +1,52 @@
+{
+  "name": "solveit/pro-optimization",
+  "description": "Laravel Page Optimization (Custom Namespace)",
+  "keywords": [
+    "laravel",
+    "optimization",
+    "page speed",
+    "minify",
+    "compress"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Solveit Team",
+      "email": "support@solveitbd.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "illuminate/support": "^12.0 || ^13.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0",
+    "orchestra/testbench": "^8.0",
+    "squizlabs/php_codesniffer": "^3.7",
+    "mockery/mockery": "^1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Solveit\\ProOptimization\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Solveit\\ProOptimization\\Test\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check-style": "phpcs -p --standard=PSR12 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+    "fix-style": "phpcbf -p --standard=PSR12 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Solveit\\ProOptimization\\ServiceProvider"
+      ]
+    }
+  }
+}

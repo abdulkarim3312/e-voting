@@ -5,11 +5,10 @@
 @section('content')
 
         <div class="page-header">
-            <h2 class="page-title">New Page</h2>
             <div>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">New Page</li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">হোম</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">জেলা</li>
                 </ol>
             </div>
         </div>
