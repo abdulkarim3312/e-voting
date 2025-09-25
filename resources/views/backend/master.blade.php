@@ -54,7 +54,7 @@
         <script src="{{ asset('lib/js/helpers.js') }}"></script>
         <script src="{{ asset('lib/js/template-customizer.js') }}"></script>
         <script src="{{ asset('lib/js/config.js') }}"></script>
-        @stack('styles')
+        @yield('styles')
   </head>
 
   <body>
@@ -119,7 +119,7 @@
         
       </script>
       @include('backend.inc.toastr')
-      @stack('scripts')
+      @yield('scripts')
   </body>
 </html>
 
