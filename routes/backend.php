@@ -2,13 +2,14 @@
 
 use UniSharp\LaravelFilemanager\Lfm;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\ZoneController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DistrictController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\PermissionController;
 
 
 
@@ -52,6 +53,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         
         Route::get('/category-edit/{id}', 'categoryEdit')->name('category.edit');
         Route::get('/category-delete/{id}', 'categoryDelete')->name('category.delete');
+    });
+
+
+    Route::controller(ZoneController::class)->group(function () {
+        Route::get('/zone-manage', 'zoneManage')->name('zone.manage');
+        Route::get('/zone-create', 'zoneCreate')->name('zone.create');
+        Route::post('/zone-upload', 'zoneUpload')->name('zone.upload');
+        Route::post('/zone-update', 'zoneUpdate')->name('zone.update');
+        
+        Route::get('/zone-edit/{id}', 'zoneEdit')->name('zone.edit');
+        Route::get('/zone-delete/{id}', 'zoneDelete')->name('zone.delete');
     });
 
 

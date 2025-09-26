@@ -27,7 +27,7 @@
     <ul class="menu-inner py-1">
 
       <!-- Dashboard Header -->
-      <li class="menu-header mt-7">
+      <li class="menu-header mt-0">
         <span class="menu-header-text" data-i18n="Dashboard">ড্যাশবোর্ড</span>
       </li>
 
@@ -44,6 +44,12 @@
         $isRoleActive = request()->routeIs('roles.index', 'roles.create', 'roles.edit');
         $isUserManagementOpen = $isUserActive || $isRoleActive;
       @endphp
+
+
+     <li class="menu-header mt-1">
+        <span class="menu-header-text" data-i18n="Dashboard">ব্যবহারকারী</span>
+      </li>
+
 
       @can('users-management',)
         <li class="menu-item {{ $isUserManagementOpen ? 'active open' : '' }}">
@@ -69,54 +75,13 @@
             @endcan
           </ul>
         </li>
-      @endcan
-        
-      <!-- category Manage Menu -->
-      @php
-          $isCategoryActive      = request()->routeIs('categories.index', 'categories.create', 'categories.edit');
-          $isSubCategoryActive   = request()->routeIs('sub-categories.index', 'sub-categories.create', 'sub-categories.edit');
-          $isChildCategoryActive = request()->routeIs('child-categories.index', 'child-categories.create', 'child-categories.edit');
+      @endcan     
 
-          $isCategoryManagementOpen = $isCategoryActive || $isSubCategoryActive || $isChildCategoryActive;
-      @endphp
 
-      @if(in_array('category.manage', session('permissions', [])))
-          <li class="menu-item {{ $isCategoryManagementOpen ? 'active open' : '' }}">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                  <i class="menu-icon fas fa-layer-group fs-5"></i>
-                  <div data-i18n="Category">Category Manage</div>
-              </a>
-              <ul class="menu-sub">
+      <li class="menu-header mt-1">
+        <span class="menu-header-text" data-i18n="Dashboard">অঞ্চল ব্যাবস্থাপনা</span>
+      </li>
 
-                  @if(in_array('category.view', session('permissions', [])))
-                      <li class="menu-item {{ $isCategoryActive ? 'active' : '' }}">
-                          <a href="{{ route('categories.index') }}" class="menu-link">
-                              <div>Category</div>
-                          </a>
-                      </li>
-                  @endif
-
-                  @if(in_array('subcat.view', session('permissions', [])))
-                      <li class="menu-item {{ $isSubCategoryActive ? 'active' : '' }}">
-                          <a href="{{ route('sub-categories.index') }}" class="menu-link">
-                              <div>Sub Category</div>
-                          </a>
-                      </li>
-                  @endif
-
-                  @if(in_array('childcat.view', session('permissions', [])))
-                      <li class="menu-item {{ $isChildCategoryActive ? 'active' : '' }}">
-                          <a href="{{ route('child-categories.index') }}" class="menu-link">
-                              <div>Child Category</div>
-                          </a>
-                      </li>
-                  @endif
-
-              </ul>
-          </li>
-      @endif
-      
-     
 
       @php
           $isDistrictActive = request()->routeIs('district.manage', 'district.create', 'district.edit');
@@ -162,7 +127,7 @@
           <ul class="menu-sub">
               @if(in_array('zone-management', session('permissions', [])))
               <li class="menu-item {{ request()->routeIs('zone.manage') ? 'active' : '' }}">
-                  <a href="" class="menu-link">
+                  <a href="{{ route('zone.manage') }}" class="menu-link">
                       <div>নির্বাচনী জোন দেখুন</div>
                   </a>
               </li>
@@ -170,7 +135,7 @@
 
               @if(in_array('district-create', session('permissions', [])))
               <li class="menu-item {{ request()->routeIs('district.create') ? 'active' : '' }}">
-                  <a href="" class="menu-link">
+                  <a href="{{ route('zone.create') }}" class="menu-link">
                       <div>জোন যোগ করুন</div>
                   </a>
               </li>

@@ -36,7 +36,7 @@
 
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
 $(function () {
     $('#district-table').DataTable({
@@ -52,4 +52,4 @@ $(function () {
     });
 });
 </script>
-@endpush
+@endsection

@@ -29,6 +29,13 @@
                     </div>
 
                     <div class="col-md-6 col-12 mb-5">
+                        <div class="form-floating form-floating-outline mb-6">
+                            <textarea class="form-control h-px-75" id="basic-default-bio" name="basic-default-bio" placeholder="My name is john" rows="3" required=""></textarea>
+                            <label for="basic-default-bio">Bio</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12 mb-5">
                         <div class="form-floating form-floating-outline">
                             <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
                                 <option>Open this select menu</option>
@@ -133,4 +140,11 @@
 
 
 
+@endsection
+
+
+@section('scripts')
+<script>
+    
+</script>
 @endsection
