@@ -144,8 +144,35 @@
       </li>
       @endif
 
+      @php
+          $isCategoryActive = request()->routeIs('category.manage', 'category.create', 'category.edit');
+      @endphp
 
+      @if(in_array('zone-management', session('permissions', [])))
+      <li class="menu-item {{ $isCategoryActive ? 'active open' : '' }}">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon fas fa-chart-area"></i>
+              <div data-i18n="Zone">Candidate Manage</div>
+          </a>
+          <ul class="menu-sub">
+              @if(in_array('zone-management', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('zone.manage') ? 'active' : '' }}">
+                  <a href="{{ route('category.manage') }}" class="menu-link">
+                      <div>Category</div>
+                  </a>
+              </li>
+              @endif
 
+              @if(in_array('district-create', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('district.create') ? 'active' : '' }}">
+                  <a href="" class="menu-link">
+                      <div>Candidate</div>
+                  </a>
+              </li>
+              @endif
+          </ul>
+      </li>
+      @endif
     </ul>
 </aside>
 

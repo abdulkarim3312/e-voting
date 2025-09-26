@@ -5,10 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\ZoneController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Backend\DistrictController;
-use App\Http\Controllers\Backend\ZoneController;
 
 
 
@@ -42,6 +43,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         
         Route::get('/district-edit/{id}', 'districtEdit')->name('district.edit');
         Route::get('/district-delete/{id}', 'districtDelete')->name('district.delete');
+    });
+
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/category-manage', 'categoryManage')->name('category.manage');
+        Route::get('/category-create', 'categoryCreate')->name('category.create');
+        Route::post('/category-upload', 'categoryUpload')->name('category.upload');
+        Route::post('/category-update', 'categoryUpdate')->name('category.update');
+        
+        Route::get('/category-edit/{id}', 'categoryEdit')->name('category.edit');
+        Route::get('/category-delete/{id}', 'categoryDelete')->name('category.delete');
     });
 
 
