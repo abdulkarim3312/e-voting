@@ -8,7 +8,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: [
             __DIR__.'/../routes/frontend.php',
-            __DIR__.'/../routes/backend.php'
+            __DIR__.'/../routes/backend.php',
+            __DIR__.'/../routes/userend.php',
         ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
@@ -16,10 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \Solveit\ProOptimization\Middleware\ElideAttributes::class,
-            \Solveit\ProOptimization\Middleware\RemoveComments::class,
-            \Solveit\ProOptimization\Middleware\CollapseWhitespace::class,
-            \Solveit\ProOptimization\Middleware\DeferJavascript::class,
+            // \Solveit\ProOptimization\Middleware\ElideAttributes::class,
+            // \Solveit\ProOptimization\Middleware\RemoveComments::class,
+            // \Solveit\ProOptimization\Middleware\CollapseWhitespace::class,
+            // \Solveit\ProOptimization\Middleware\DeferJavascript::class,
         ]);
 
         
@@ -27,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'user' => \App\Http\Middleware\User::class,
+            'GuestUser' => \App\Http\Middleware\GuestUser::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
