@@ -145,28 +145,35 @@
       @endif
 
       @php
-          $isCategoryActive = request()->routeIs('category.manage', 'category.create', 'category.edit');
+          $isCategoryActive = request()->routeIs('category.manage', 'category.create', 'category.edit', 'designation.manage', 'designation.create', 'designation.edit');
       @endphp
 
       @if(in_array('zone-management', session('permissions', [])))
       <li class="menu-item {{ $isCategoryActive ? 'active open' : '' }}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon fas fa-chart-area"></i>
-              <div data-i18n="Zone">Candidate Manage</div>
+              <div data-i18n="Zone">কার্যনির্বাহী পরিষদ</div>
           </a>
           <ul class="menu-sub">
               @if(in_array('zone-management', session('permissions', [])))
-              <li class="menu-item {{ request()->routeIs('zone.manage') ? 'active' : '' }}">
+              <li class="menu-item {{ request()->routeIs('designation.manage') ? 'active' : '' }}">
+                  <a href="{{ route('designation.manage') }}" class="menu-link">
+                      <div>পদবী</div>
+                  </a>
+              </li>
+              @endif
+              @if(in_array('zone-management', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('category.manage') ? 'active' : '' }}">
                   <a href="{{ route('category.manage') }}" class="menu-link">
-                      <div>Category</div>
+                      <div>ক্যাটাগরি</div>
                   </a>
               </li>
               @endif
 
               @if(in_array('district-create', session('permissions', [])))
-              <li class="menu-item {{ request()->routeIs('district.create') ? 'active' : '' }}">
-                  <a href="" class="menu-link">
-                      <div>Candidate</div>
+              <li class="menu-item {{ request()->routeIs('candidate.manage') ? 'active' : '' }}">
+                  <a href="{{ route('candidate.manage') }}" class="menu-link">
+                      <div>প্রার্থী</div>
                   </a>
               </li>
               @endif

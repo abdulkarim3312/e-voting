@@ -15,6 +15,14 @@ class ZoneController extends Controller
         if($req->ajax()) {
             return DataTables::of($query)
                 ->addIndexColumn()
+                ->addColumn('created_at', function ($row) {
+                    if ($row->created_at) {
+                        return \Carbon\Carbon::parse($row->created_at)
+                            ->timezone('Asia/Dhaka')
+                            ->format('d M Y, h:i A');
+                    }
+                    return '';
+                })
                 ->addColumn('action', function($row){
                     $editUrl = route('zone.edit', $row->id); // route + row id
                     $deleteUrl = route('zone.delete', $row->id); // যদি তুমি delete route বানাও

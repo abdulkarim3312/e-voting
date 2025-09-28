@@ -8,8 +8,10 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\ZoneController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DistrictController;
+use App\Http\Controllers\Backend\CandidateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\DesignationController;
 
 
 
@@ -53,6 +55,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         
         Route::get('/category-edit/{id}', 'categoryEdit')->name('category.edit');
         Route::get('/category-delete/{id}', 'categoryDelete')->name('category.delete');
+    });
+    Route::controller(DesignationController::class)->group(function () {
+        Route::get('/designation-manage', 'designationManage')->name('designation.manage');
+        Route::get('/designation-create', 'designationCreate')->name('designation.create');
+        Route::post('/designation-upload', 'designationUpload')->name('designation.upload');
+        Route::post('/designation-update', 'designationUpdate')->name('designation.update');
+        
+        Route::get('/designation-edit/{id}', 'designationEdit')->name('designation.edit');
+        Route::get('/designation-delete/{id}', 'designationDelete')->name('designation.delete');
+    });
+
+    Route::controller(CandidateController::class)->group(function () {
+        Route::get('/candidate-manage', 'candidateManage')->name('candidate.manage');
+        Route::get('/candidate-create', 'candidateCreate')->name('candidate.create');
+        Route::post('/candidate-upload', 'candidateUpload')->name('candidate.upload');
+        Route::post('/candidate-update', 'candidateUpdate')->name('candidate.update');
+        
+        Route::get('/candidate-edit/{id}', 'candidateEdit')->name('candidate.edit');
+        Route::get('/candidate-delete/{id}', 'candidateDelete')->name('candidate.delete');
     });
 
 

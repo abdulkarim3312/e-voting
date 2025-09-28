@@ -15,7 +15,15 @@ class DistrictController extends Controller
             $data = DB::table('districts')->select('id', 'name', 'created_at');
 
             return DataTables::of($data)
-            ->addIndexColumn() // ক্রমিক সংখ্যা
+            ->addIndexColumn() 
+            ->addColumn('created_at', function ($row) {
+                if ($row->created_at) {
+                    return \Carbon\Carbon::parse($row->created_at)
+                        ->timezone('Asia/Dhaka')
+                        ->format('d M Y, h:i A');
+                }
+                return '';
+            })
             ->addColumn('action', function($row){
                 $editUrl = route('district.edit', $row->id); // route + row id
                 $deleteUrl = route('district.delete', $row->id); // যদি তুমি delete route বানাও

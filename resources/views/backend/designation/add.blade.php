@@ -15,11 +15,11 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title mb-0">কার্যনির্বাহী পরিষদের ক্যাটাগরি</h3>
+                <h3 class="card-title mb-0">পদবী যোগ করুন</h3>
             </div>
             <div class="card-body">
 
-                <form action="{{ route('category.upload') }}" method="post">
+                <form action="{{ route('designation.upload') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-12 mb-5">
