@@ -13,7 +13,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title mb-0">কার্যনির্বাহী পরিষদের ক্যাটাগরি</h4>
-            <a href="{{ route('category.create') }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-plus-circle mr-1"></i> নতুন যোগ করুন </a>
+            <a href="{{ route('candidate.create') }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-plus-circle mr-1"></i> নতুন যোগ করুন </a>
         </div>
         <div class="card-body">
             <table id="district-table" class="table table-bordered text-nowrap mb-0">

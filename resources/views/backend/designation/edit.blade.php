@@ -15,33 +15,42 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title mb-0">কার্যনির্বাহী পরিষদের ক্যাটাগরি</h3>
+                <h3 class="card-title mb-0">পদবী পরিবর্তন করুন</h3>
             </div>
             <div class="card-body">
 
-                <form action="{{ route('category.upload') }}" method="post">
+                <form action="{{ route('designation.update') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-12 mb-5">
                             <label for="status">Status</label>
                             <div class="form-floating form-floating-outline">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="" aria-describedby="floatingInputHelp" name="name" required>
-                                <label for="floatingInput">নাম</label>
+                                <input type="text" class="form-control" id="floatingInput" placeholder="" aria-describedby="floatingInputHelp" name="name" required value="{{ $data->name ?? ''}}">
                             </div>
                         </div>
                         <div class="col-md-6 col-12 mb-5">
                             <label for="status">Status</label>
                             <select name="status" class="form-select">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                                <option value="1" {{ $data->status == 1 ? 'selected': '' }}>Active</option>
+                                <option value="0" {{ $data->status == 0 ? 'selected': '' }}>Inactive</option>
                             </select>
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="{{ $data->id }}">
                     <center>
-                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fas fa-save me-1"></i> যুক্ত করুন </button>
+                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa-solid fa-retweet"></i> পরিবর্তন করুন </button>
                     </center>
                 </form>
 
             </div>
         </div>
+
+
+
+
+
+
+
+
+
 @endsection
