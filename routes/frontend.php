@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\HomeController;
 
 
-Route::get('/', function () {
-    return redirect('/admin/login');
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'home')->name('home.view');
 });

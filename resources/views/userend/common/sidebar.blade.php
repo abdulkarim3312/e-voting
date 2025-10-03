@@ -34,14 +34,21 @@
             <li class="side-nav-title">Dash</li>
 
             <li class="side-nav-item">
-                <a href="index.html" class="side-nav-link">
-                    <span class="menu-icon"><i class="fas fa-tachometer-alt"></i></span>
-                    <span class="menu-text"> Sales </span>
+                <a href="/user/dashboard" class="side-nav-link">
+                    <span class="menu-icon"><i class="fa-duotone fa-light fa-house"></i></span>
+                    <span class="menu-text"> ড্যাশবোর্ড </span>
                     <span class="badge bg-success rounded-pill">5</span>
                 </a>
             </li>
 
             <li class="side-nav-item">
+                <a href="/user/voting" class="side-nav-link">
+                    <span class="menu-icon"><i class="fa-duotone fa-thin fa-person-booth"></i></span>
+                    <span class="menu-text"> আপনার ভোট দিন </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item d-none">
                 <a href="dashboard-clinic.html" class="side-nav-link">
                     <span class="menu-icon"><i class="fas fa-hospital"></i></span>
                     <span class="menu-text"> Clinic </span>
@@ -50,7 +57,7 @@
 
 
 
-            <li class="side-nav-item">
+            <li class="side-nav-item d-none">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
                     <span class="menu-icon"><i class="fas fa-th-large"></i></span>
                     <span class="menu-text"> Layouts </span>
@@ -85,7 +92,7 @@
                 </div>
             </li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item  d-none">
                 <a data-bs-toggle="collapse" href="#sidebarMultiLevel" aria-expanded="false" aria-controls="sidebarMultiLevel" class="side-nav-link">
                     <span class="menu-icon"><i class="fas fa-layer-group"></i></span>
                     <span class="menu-text"> Multi Level </span>

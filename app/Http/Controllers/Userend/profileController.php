@@ -10,9 +10,13 @@ use DB;
 class profileController extends Controller
 {
     public function userProfile(){
+
+
+        $offices = DB::table('offices')->get();
         $districts = DB::table('districts')->get();
+        $designations = DB::table('designations')->get();
         $user = DB::table('employees')->where('id',session('employee_id'))->first();
-        return view("userend.profile.view" , compact("user" , "districts"));
+        return view("userend.profile.view" , compact("user" , "districts" , "designations" , "offices") );
 
     }
 

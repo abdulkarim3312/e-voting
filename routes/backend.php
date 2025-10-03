@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\CandidateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\OfficeController;
 
 
 
@@ -72,7 +73,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::post('/candidate-upload', 'candidateUpload')->name('candidate.upload');
         Route::post('/candidate-update', 'candidateUpdate')->name('candidate.update');
         
-        Route::get('/candidate-edit/{id}', 'candidateEdit')->name('candidate.edit');
         Route::get('/candidate-delete/{id}', 'candidateDelete')->name('candidate.delete');
     });
 
@@ -85,6 +85,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         
         Route::get('/zone-edit/{id}', 'zoneEdit')->name('zone.edit');
         Route::get('/zone-delete/{id}', 'zoneDelete')->name('zone.delete');
+    });
+
+
+    Route::controller(OfficeController::class)->group(function () {
+        Route::get('/office-manage', 'officeManage')->name('office.manage');
+        Route::get('/office-create', 'officeCreate')->name('office.create');
+        Route::post('/office-upload', 'officeUpload')->name('office.upload');
+        Route::post('/office-update', 'officeUpdate')->name('office.update');
+        
+        Route::get('/office-edit/{id}', 'officeEdit')->name('office.edit');
+        Route::get('/office-delete/{id}', 'officeDelete')->name('office.delete');
     });
 
 

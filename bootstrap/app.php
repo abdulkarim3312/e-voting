@@ -17,10 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            // \Solveit\ProOptimization\Middleware\ElideAttributes::class,
-            // \Solveit\ProOptimization\Middleware\RemoveComments::class,
-            // \Solveit\ProOptimization\Middleware\CollapseWhitespace::class,
-            // \Solveit\ProOptimization\Middleware\DeferJavascript::class,
+            \Solveit\ProOptimization\Middleware\ElideAttributes::class,
+            \Solveit\ProOptimization\Middleware\RemoveComments::class,
+            \Solveit\ProOptimization\Middleware\CollapseWhitespace::class,
+            \Solveit\ProOptimization\Middleware\DeferJavascript::class,
         ]);
 
         

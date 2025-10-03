@@ -8,14 +8,14 @@
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">হোম</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">জেলা</li>
+                    <li class="breadcrumb-item active" aria-current="page">নির্বাচনী পদ</li>
                 </ol>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title mb-0">কার্যনির্বাহী পরিষদের ক্যাটাগরি</h3>
+                <h3 class="card-title mb-0">নির্বাচনী পদ যুক্ত করুন</h3>
             </div>
             <div class="card-body">
 

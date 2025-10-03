@@ -2,7 +2,7 @@
 
 @section('title', 'Role')
 
-@push('styles')
+@section('styles')
 <style>
     .big-checkbox {
         transform: scale(1.5);
@@ -11,7 +11,7 @@
         cursor: pointer;
     }
 </style>
-@endpush
+@endsection
 
 @section('content')
 <div class="card">
@@ -35,7 +35,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
 $(function () {
     let table = $('#responsive-datatable').DataTable({
@@ -91,4 +91,4 @@ $(function () {
     });
 });
 </script>
-@endpush
+@endsection

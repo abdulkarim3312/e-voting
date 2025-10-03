@@ -12,7 +12,7 @@
     </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="card-title mb-0">পদবী</h4>
+            <h4 class="card-title mb-0">কর্মকর্তা পদবী সমূহ</h4>
             <a href="{{ route('designation.create') }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-plus-circle mr-1"></i> নতুন যোগ করুন </a>
         </div>
         <div class="card-body">
