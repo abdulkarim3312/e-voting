@@ -55,6 +55,13 @@ class AdminSeeder extends Seeder
                 'candidate-create',
                 'candidate-view',
             ],
+            'Office' => [
+                'office-manage',
+                'office-delete',
+                'office-edit',
+                'office-create',
+                'office-view',
+            ],
         ];
 
         foreach ($modules as $module => $permissions) {

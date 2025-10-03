@@ -6,13 +6,13 @@
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">হোম</a></li>
-                <li class="breadcrumb-item active" aria-current="page">জেলা</li>
+                <li class="breadcrumb-item active" aria-current="page">নির্বাচনী পদ</li>
             </ol>
         </div>
     </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="card-title mb-0">কার্যনির্বাহী পরিষদের ক্যাটাগরি</h4>
+            <h4 class="card-title mb-0">নির্বাচনী পদ সমূহ</h4>
             <a href="{{ route('category.create') }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-plus-circle mr-1"></i> নতুন যোগ করুন </a>
         </div>
         <div class="card-body">

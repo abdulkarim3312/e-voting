@@ -60,8 +60,8 @@
                                 <label for="simpleinput" class="form-label">পদবী</label>
                                 <select class="select2 form-control  select2-hidden-accessible" data-toggle="select2" name="designation" data-select2-id="1" tabindex="-1" aria-hidden="true" required>
                                     <option value="" selected disabled>সিলেক্ট করুন</option>
-                                    @foreach ($districts as $district)
-                                        <option value="{{ $district->name }}" {{ $user->district == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                    @foreach ($designations as $desg)
+                                        <option value="{{ $desg->id }}" {{ $user->designation == $desg->id ? 'selected' : '' }}>{{ $desg->name }}</option>
                                     @endforeach
                                     
                                 </select>
@@ -73,7 +73,7 @@
                                 <select class="select2 form-control  select2-hidden-accessible" data-toggle="select2" data-select2-id="2" tabindex="-1" aria-hidden="true" name="district" required>
                                 <option value="" disabled selected>সিলেক্ট করুন</option>
                                     @foreach ($districts as $district)
-                                        <option value="{{ $district->name }}" {{ $user->district == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                        <option value="{{ $district->id }}" {{ $user->district == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
                                     @endforeach
                                     
                                 </select>
@@ -84,8 +84,8 @@
                                 <label for="simpleinput" class="form-label">কর্মস্থান</label>
                                 <select class="form-control select2 select2-hidden-accessible" data-toggle="select2" data-select2-id="3" tabindex="-1" name="officeLoc" aria-hidden="true" required>
                                     <option value="" disabled selected>সিলেক্ট করুন</option>
-                                    @foreach ($districts as $district)
-                                        <option value="{{ $district->name }}" {{ $user->district == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                    @foreach ($offices as $office)
+                                        <option value="{{ $office->id }}" {{ $user->working_place == $office->id ? 'selected' : '' }}>{{ $office->office_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

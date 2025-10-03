@@ -1,7 +1,7 @@
 @extends('backend.master')
 
 @section('title', 'product')
-@push('styles')
+@section('styles')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
 <style>
     .big-checkbox {
@@ -64,7 +64,7 @@
         cursor: pointer;
     }
 </style>
-@endpush
+@endsection
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -153,7 +153,7 @@
 </div>
 
 @endsection
-@push('scripts')
+@section('scripts')
 <script>
     document.getElementById('checkAll').addEventListener('change', function () {
         const isChecked = this.checked;
@@ -163,4 +163,4 @@
         });
     });
 </script>
-@endpush
+@endsection

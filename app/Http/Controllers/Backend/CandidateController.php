@@ -10,66 +10,101 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CandidateController extends Controller
 {
+
+
     public function candidateManage(Request $req) {
         if ($req->ajax()) {
-            $data = DB::table('candidates')->select('*');
+            // Join categories এবং employees table যাতে readable name আসে
+            $data = DB::table('candidates')
+                ->leftJoin('categories', 'candidates.category_id', '=', 'categories.id')
+                ->leftJoin('employees', 'candidates.employee_id', '=', 'employees.id')
+                ->select(
+                    'candidates.*',
+                    'categories.name as category_name',
+                    'employees.name as employee_name',
+                    'employees.nid'
+                );
 
             return DataTables::of($data)
-            ->addIndexColumn() 
-            ->addColumn('status', function ($row) {
-                $checked = $row->status ? 'checked' : '';
-                return '<input type="checkbox" class="status-toggle big-checkbox" data-id="' . $row->id . '" ' . $checked . '>';
-            })
-
-            ->addColumn('created_at', function ($row) {
-                if ($row->created_at) {
-                    return \Carbon\Carbon::parse($row->created_at)
-                        ->timezone('Asia/Dhaka')
-                        ->format('d M Y, h:i A');
-                }
-                return '';
-            })
-            ->addColumn('action', function($row){
-                $editUrl = route('candidate.edit', $row->id); 
-                 $deleteUrl = route('candidate.delete', $row->id); // যদি তুমি delete route বানাও
-               return '<a href="'. $editUrl .'" class="btn btn-sm btn-warning"><i class="fa fa-edit text-black"></i></a> 
-                        <a href="'. $deleteUrl .'" class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"></i></a>';
-            })
-            ->rawColumns(['status','action'])
-            ->make(true);
-
+                ->addIndexColumn()
+                ->addColumn('category', function($row){
+                    return $row->category_name ?? '-';
+                })
+                ->addColumn('employee', function($row){
+                    return $row->employee_name
+                        ? $row->employee_name . ' [NID:' . ($row->nid ?? '-') . ']'
+                        : '-';
+                })
+                ->addColumn('election_year', function($row){
+                    return $row->election_year ?? '-';
+                })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? \Carbon\Carbon::parse($row->created_at)
+                            ->setTimezone('Asia/Dhaka')
+                            ->diffForHumans()
+                        : '';
+                })
+                ->addColumn('action', function($row){
+                    $deleteUrl = route('candidate.delete', $row->id);
+                    return '<a href="'. $deleteUrl .'" class="btn btn-sm btn-danger"><i class="fa fa-trash text-white"></i></a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
         return view('backend.candidate.manage');
     }
 
 
+
+
+
     public function candidateCreate(){
-        return view('backend.candidate.add');
+
+        $employees = DB::table('employees')->get();
+        $categories = DB::table('categories')->get();
+
+        return view('backend.candidate.add' , compact('employees', 'categories'));
     }
 
 
     public function candidateUpload(Request $req) {
+        // Validation
         $req->validate([
-            'name' => 'required|string|unique:candidates,name',
+            'employee_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'year'        => 'required|integer',
         ], [
-            'name.required' => 'জেলার নাম অবশ্যই দিতে হবে।',
-            'name.unique'   => 'এই জেলা ইতিমধ্যেই আছে।',
+            'employee_id.required' => 'কর্মকর্তার আইডি দিতে হবে।',
+            'category_id.required' => 'ক্যাটেগরি সিলেক্ট করুন।',
+            'year.required'        => 'নির্বাচনের বছর দিতে হবে।',
         ]);
+
+        // Duplicate check
+        $exists = DB::table('candidates')
+            ->where('employee_id', $req->employee_id)
+            ->where('category_id', $req->category_id)
+            ->where('election_year', $req->year)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'এই প্রার্থী ইতিমধ্যেই যোগ করা হয়েছে।')
+                        ->withInput();
+        }
 
         // Insert
         $status = DB::table('candidates')->insert([
-            'name' => $req->name,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'status' => $req->status,
-            'slug' => Str::slug($req->name) . '-' . Str::lower(Str::random(6))
+            'employee_id' => $req->employee_id,
+            'category_id' => $req->category_id,
+            'election_year' => $req->year,
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ]);
-    
 
         if ($status) {
-           return redirect()->route('candidate.manage')->with('success', 'নতুন জেলা সফলভাবে যোগ করা হয়েছে।');
-
+            return redirect()->route('candidate.manage')
+                ->with('success', 'প্রার্থী সফলভাবে যোগ করা হয়েছে।');
         } else {
             return back()
                 ->with('error', 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।')
@@ -79,48 +114,14 @@ class CandidateController extends Controller
 
 
 
-    public function candidateEdit($id){
-
-        $data = DB::table('candidates')->where('id', $id)->first();
-        return view('backend.candidate.edit' , compact('data'));
-
-    }
-
-
-    public function candidateUpdate(Request $req){
-        $req->validate([
-            'name' => 'required|string|unique:candidates,name,' . $req->id,
-        ], [
-            'name.required' => 'জেলার নাম অবশ্যই দিতে হবে।',
-            'name.unique'   => 'এই জেলা ইতিমধ্যেই আছে।',
-        ]);
-
-        $updated = DB::table('candidates')
-            ->where('id', $req->id)
-            ->update([
-                'name' => $req->name,
-                'updated_at' => now(),
-                'status' => $req->status,
-                'slug' => Str::slug($req->name) . '-' . Str::lower(Str::random(6))
-            ]);
-
-        if ($updated) {
-           return redirect()->route('candidate.manage')->with('success', 'জেলা সফলভাবে আপডেট হয়েছে।');
-
-        } else {
-            return back()->with('error', 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।')->withInput();
-        }
-    }
-
-
     public function candidateDelete($id) {
         try {
             $deleted = DB::table('candidates')->where('id', $id)->delete();
 
             if ($deleted) {
-                return redirect()->back()->with('success', 'জেলা সফলভাবে মুছে ফেলা হয়েছে।');
+                return redirect()->back()->with('success', 'প্রার্থী  সফলভাবে মুছে ফেলা হয়েছে।');
             } else {
-                return redirect()->back()->with('error', 'জেলা খুঁজে পাওয়া যায়নি বা মুছে ফেলা যায়নি।');
+                return redirect()->back()->with('error', 'প্রার্থী  খুঁজে পাওয়া যায়নি বা মুছে ফেলা যায়নি।');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।');

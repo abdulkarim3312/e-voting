@@ -8,14 +8,14 @@
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">হোম</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">জেলা</li>
+                    <li class="breadcrumb-item active" aria-current="page">নির্বাচনী পদ</li>
                 </ol>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title mb-0">জেলা যোগ করুন</h3>
+                <h3 class="card-title mb-0">নির্বাচনী পদ পরিবর্তন করুন</h3>
             </div>
             <div class="card-body">
 
