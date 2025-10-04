@@ -165,7 +165,7 @@
 
 
       @php
-          $isCategoryActive = request()->routeIs('category.manage', 'category.create', 'category.edit', 'designation.manage', 'designation.create', 'designation.edit');
+          $isCategoryActive = request()->routeIs('category.manage', 'category.create', 'category.edit', 'designation.manage', 'designation.create', 'designation.edit', 'employee.manage');
       @endphp
 
       @if(in_array('zone-management', session('permissions', [])))
@@ -190,6 +190,14 @@
                   <a href="{{ route('candidate.manage') }}" class="menu-link">
                     <i class="fa-duotone fa-thin fa-users-rays"></i>  
                     <div>নির্বাচনী প্রার্থী</div>
+                  </a>
+              </li>
+              @endif
+              @if(in_array('district-create', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('employee.manage') ? 'active' : '' }}">
+                  <a href="{{ route('employee.manage') }}" class="menu-link">
+                    <i class="fa-duotone fa-thin fa-users-rays"></i>  
+                    <div>কর্মকর্তা তালিকা</div>
                   </a>
               </li>
               @endif

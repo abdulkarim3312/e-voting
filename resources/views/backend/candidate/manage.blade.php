@@ -16,7 +16,7 @@
             <a href="{{ route('candidate.create') }}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="fa fa-plus-circle mr-1"></i> নতুন যোগ করুন </a>
         </div>
         <div class="card-body">
-            <table id="district-table" class="table table-bordered text-nowrap mb-0">
+            <table id="district-table" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>ক্রমিক</th>
@@ -43,8 +43,8 @@ $(function () {
         ajax: "{{ route('candidate.manage') }}",
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'category', name: 'category' },
-            { data: 'employee', name: 'employee' },
+            { data: 'category', name: 'category', width:'25%' },
+            { data: 'employee', name: 'employee', width:'30%' },
             { data: 'election_year', name: 'election_year' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }

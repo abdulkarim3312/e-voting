@@ -50,6 +50,9 @@ class DesignationController extends Controller
 
 
     public function designationUpload(Request $req) {
+        $req->merge([
+            'name' => preg_replace('/\s+/', ' ', trim($req->input('name')))
+        ]);
         $req->validate([
             'name' => 'required|string|unique:designations,name',
         ], [
@@ -67,7 +70,7 @@ class DesignationController extends Controller
     
 
         if ($status) {
-           return redirect()->route('designation.manage')->with('success', 'নতুন পদবী সফলভাবে যোগ করা হয়েছে।');
+           return redirect()->back('designation.manage')->with('success', 'নতুন পদবী সফলভাবে যোগ করা হয়েছে।');
 
         } else {
             return back()
@@ -87,6 +90,9 @@ class DesignationController extends Controller
 
 
     public function designationUpdate(Request $req){
+        $req->merge([
+            'name' => preg_replace('/\s+/', ' ', trim($req->input('name')))
+        ]);
         $req->validate([
             'name' => 'required|string|unique:designations,name,' . $req->id,
         ], [

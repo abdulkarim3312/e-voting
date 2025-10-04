@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'জেলা যোগ করুন')
+@section('title', 'নির্বাচনী পদ')
 
 @section('content')
 
