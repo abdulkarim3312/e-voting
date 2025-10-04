@@ -53,7 +53,7 @@ class CategoryController extends Controller
         $req->validate([
             'name' => 'required|string|unique:categories,name',
         ], [
-            'name.required' => 'জেলার নাম অবশ্যই দিতে হবে।',
+            'name.required' => 'নির্বাচনী পদ অবশ্যই দিতে হবে।',
             'name.unique'   => 'এই জেলা ইতিমধ্যেই আছে।',
         ]);
 
@@ -68,7 +68,7 @@ class CategoryController extends Controller
     
 
         if ($status) {
-           return redirect()->route('category.manage')->with('success', 'নতুন জেলা সফলভাবে যোগ করা হয়েছে।');
+           return redirect()->back()->with('success', 'নতুন নির্বাচনী পদ সফলভাবে যোগ করা হয়েছে।');
 
         } else {
             return back()
@@ -91,7 +91,7 @@ class CategoryController extends Controller
         $req->validate([
             'name' => 'required|string|unique:categories,name,' . $req->id,
         ], [
-            'name.required' => 'জেলার নাম অবশ্যই দিতে হবে।',
+            'name.required' => 'নির্বাচনী পদ নাম অবশ্যই দিতে হবে।',
             'name.unique'   => 'এই জেলা ইতিমধ্যেই আছে।',
         ]);
 
@@ -105,7 +105,7 @@ class CategoryController extends Controller
             ]);
 
         if ($updated) {
-           return redirect()->route('category.manage')->with('success', 'জেলা সফলভাবে আপডেট হয়েছে।');
+           return redirect()->route('category.manage')->with('success', 'নির্বাচনী পদ সফলভাবে আপডেট হয়েছে।');
 
         } else {
             return back()->with('error', 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।')->withInput();
@@ -118,9 +118,9 @@ class CategoryController extends Controller
             $deleted = DB::table('categories')->where('id', $id)->delete();
 
             if ($deleted) {
-                return redirect()->back()->with('success', 'জেলা সফলভাবে মুছে ফেলা হয়েছে।');
+                return redirect()->back()->with('success', 'নির্বাচনী পদ সফলভাবে মুছে ফেলা হয়েছে।');
             } else {
-                return redirect()->back()->with('error', 'জেলা খুঁজে পাওয়া যায়নি বা মুছে ফেলা যায়নি।');
+                return redirect()->back()->with('error', 'নির্বাচনী পদ খুঁজে পাওয়া যায়নি বা মুছে ফেলা যায়নি।');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।');

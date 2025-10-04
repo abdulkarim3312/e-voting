@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'জেলা তালিকা')
+@section('title', 'নির্বাচনী পদ তালিকা')
 @section('content')
     <div class="page-header">
         <div>

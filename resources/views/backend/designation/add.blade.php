@@ -23,7 +23,7 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-12 mb-5">
-                            <label for="status">Status</label>
+                            <label for="status">পদবী</label>
                             <div class="form-floating form-floating-outline">
                                 <input type="text" class="form-control" id="floatingInput" placeholder="" aria-describedby="floatingInputHelp" name="name" required>
                                 <label for="floatingInput">নাম</label>

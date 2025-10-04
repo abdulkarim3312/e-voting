@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Userend\Auther;
 use App\Http\Controllers\Userend\profileController;
-
-
+use App\Http\Controllers\Userend\VotingController;
 
 Route::prefix('user')->middleware(['GuestUser'])->group(function () {
 
@@ -38,6 +37,10 @@ Route::prefix('user')->middleware(['user'])->group(function () {
     Route::controller(Auther::class)->group(function () {
         Route::get('/logout', 'userLogout')->name('user.logout');
     });
+
+    Route::get('/voting', [VotingController::class, 'candidateList'])->name('user.voting');
+    Route::post('/vote', [VotingController::class, 'store'])->name('vote.store');
+    Route::get('/results/{category}', [VotingController::class, 'results'])->name('vote.results');
 
 
     Route::controller(profileController::class)->group(function () {

@@ -1,18 +1,19 @@
 <?php
 
-use UniSharp\LaravelFilemanager\Lfm;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\ZoneController;
+use App\Http\Controllers\Backend\OfficeController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DistrictController;
+use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\CandidateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\DesignationController;
-use App\Http\Controllers\Backend\OfficeController;
 
 
 
@@ -98,11 +99,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/office-delete/{id}', 'officeDelete')->name('office.delete');
     });
 
+    Route::controller(EmployeeController::class)->group(function () {
+        Route::get('/employee-manage', 'employeeManage')->name('employee.manage');
+        Route::get('/employee-create', 'employeeCreate')->name('employee.create');
+        Route::post('/employee-upload', 'employeeUpload')->name('employee.upload');
+        Route::post('/employee-update/{id}', 'employeeUpdate')->name('employee.update');
+        
+        Route::get('/employee-edit/{id}', 'employeeEdit')->name('employee.edit');
+        Route::get('/employee-delete/{id}', 'employeeDelete')->name('employee.delete');
+    });
 
-});
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    Lfm::routes();
 });
 
 

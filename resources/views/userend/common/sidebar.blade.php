@@ -42,7 +42,7 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="/user/voting" class="side-nav-link">
+                <a href="{{ route('user.voting') }}" class="side-nav-link">
                     <span class="menu-icon"><i class="fa-duotone fa-thin fa-person-booth"></i></span>
                     <span class="menu-text"> আপনার ভোট দিন </span>
                 </a>
