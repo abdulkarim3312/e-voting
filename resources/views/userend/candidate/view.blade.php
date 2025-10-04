@@ -142,9 +142,14 @@
                 <div class="row">
                     <div class="container">
                         <div class="title">সক্রিয় প্রার্থীগণ</div>
+
                         @foreach ($categories as $categoryId => $items)
                             <h4 class="election_category mb-3">{{ $items->first()->category_name }} প্রার্থী</h4>
-                            <div class="row g-3 mb-4 category-{{ $categoryId }}" data-max-vote="{{ $items->first()->max_votes ?? 1 }}">
+
+                            <div class="row g-3 mb-4 category-{{ $categoryId }}"
+                                data-max-vote="{{ $items->first()->max_votes ?? 1 }}"
+                                data-voted-count="{{ $items->first()->voted_count ?? 0 }}">
+                                
                                 @foreach ($items as $candidate)
                                     @if ($candidate->emp_id)
                                         <div class="col-12 col-md-6 col-lg-4">
@@ -166,6 +171,7 @@
                                         </div>
                                     @endif
                                 @endforeach
+
                             </div>
                         @endforeach
                     </div>
@@ -178,40 +184,57 @@
 @endsection
 @section('script')
 <script>
-  $('.vote-btn').on('click', function() {
-      const btn = $(this);
-      const categoryId = btn.data('category');
-      const candidateId = btn.data('candidate');
-      const categoryDiv = $(`.category-${categoryId}`);
-      const maxVote = categoryDiv.data('max-vote');
-      const employeeId = "{{ session('employee_id') }}";
+  $(document).ready(function() {
 
-      $.ajax({
-          url: "{{ route('vote.store') }}",
-          type: "POST",
-          data: {
-              category_id: categoryId,
-              candidate_id: candidateId,
-              employee_id: employeeId,
-              _token: "{{ csrf_token() }}"
-          },
-          success: function(data) {
-              if (data.status) {
-                  btn.addClass('voted')
-                    .text('ভোট হয়েছে')
-                    .prop('disabled', true);
+      $('.row[data-max-vote]').each(function() {
+          const categoryDiv = $(this);
+          const maxVote = parseInt(categoryDiv.data('max-vote'));
+          const votedCount = parseInt(categoryDiv.data('voted-count'));
 
-                  let votedCount = categoryDiv.find('.vote-btn.voted').length;
-                  if (votedCount >= maxVote) {
-                      categoryDiv.find('.vote-btn:not(.voted)').prop('disabled', true);
-                  }
-
-                  alert(data.message);
-              } else {
-                  alert(data.message);
-              }
+          if (votedCount >= maxVote) {
+              categoryDiv.find('.vote-btn:not(.voted)').prop('disabled', true);
           }
       });
+
+      $('.vote-btn').on('click', function() {
+          const btn = $(this);
+          const categoryId = btn.data('category');
+          const candidateId = btn.data('candidate');
+          const categoryDiv = $(`.category-${categoryId}`);
+          const maxVote = parseInt(categoryDiv.data('max-vote'));
+          const employeeId = "{{ session('employee_id') }}";
+
+          $.ajax({
+              url: "{{ route('vote.store') }}",
+              type: "POST",
+              data: {
+                  category_id: categoryId,
+                  candidate_id: candidateId,
+                  employee_id: employeeId,
+                  _token: "{{ csrf_token() }}"
+              },
+              success: function(data) {
+                  if (data.status) {
+                      btn.addClass('voted')
+                        .text('ভোট হয়েছে')
+                        .prop('disabled', true);
+
+                      if (data.voted_count >= maxVote) {
+                          categoryDiv.find('.vote-btn:not(.voted)').prop('disabled', true);
+                      }
+
+                      alert(data.message);
+                  } else {
+                      alert(data.message);
+                  }
+              },
+              error: function(xhr) {
+                  alert("ভোট দেওয়ার সময় সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+              }
+          });
+      });
+
   });
+
 </script>
 @endsection

@@ -27,6 +27,7 @@ class VotingController extends Controller
             ->select(
                 "categories.id as category_id",
                 "categories.name as category_name",
+                "categories.max_votes",
                 "employees.id as emp_id",
                 "employees.name as emp_name",
                 "employees.photo as emp_photo",
@@ -38,6 +39,11 @@ class VotingController extends Controller
             ->orderBy("categories.id")
             ->get()
             ->groupBy("category_id");
+
+        foreach ($categories as $categoryId => $items) {
+            $votedCount = $items->where('voted_id', '!=', null)->count();
+            $items->first()->voted_count = $votedCount;
+        }
 
         return view('userend.candidate.view', compact('categories'));
     }
@@ -59,6 +65,7 @@ class VotingController extends Controller
         }
 
         $category = Category::findOrFail($request->category_id);
+
         $voteCount = Vote::where('employee_id', $employeeId)
                         ->where('category_id', $request->category_id)
                         ->count();
@@ -66,7 +73,8 @@ class VotingController extends Controller
         if ($voteCount >= $category->max_votes) {
             return response()->json([
                 'status' => false,
-                'message' => 'এই পদের জন্য আপনি সর্বোচ্চ ভোট দিয়েছেন।'
+                'message' => 'আপনি এই পদের জন্য সর্বোচ্চ ভোট দিয়েছেন।',
+                'voted_count' => $voteCount
             ]);
         }
 
@@ -77,7 +85,8 @@ class VotingController extends Controller
         if ($alreadyVoted) {
             return response()->json([
                 'status' => false,
-                'message' => 'আপনি ইতিমধ্যে এই প্রার্থীকে ভোট দিয়েছেন।'
+                'message' => 'আপনি ইতিমধ্যে এই প্রার্থীকে ভোট দিয়েছেন।',
+                'voted_count' => $voteCount
             ]);
         }
 
@@ -87,9 +96,13 @@ class VotingController extends Controller
             'candidate_id' => $request->candidate_id,
         ]);
 
+        $newVoteCount = $voteCount + 1;
+
         return response()->json([
             'status' => true,
-            'message' => 'ভোট সফলভাবে প্রদান হয়েছে।'
+            'message' => 'ভোট সফলভাবে প্রদান হয়েছে।',
+            'voted_count' => $newVoteCount,
+            'max_votes' => $category->max_votes
         ]);
     }
 
