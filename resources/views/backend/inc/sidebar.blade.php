@@ -201,6 +201,26 @@
                   </a>
               </li>
               @endif
+              @if(in_array('district-create', session('permissions', [])))
+              <li class="menu-item {{ request()->routeIs('employee.voter') ? 'active' : '' }}">
+                  <a href="{{ route('employee.voter') }}" class="menu-link">
+                    <i class="fa-duotone fa-thin fa-users-rays"></i>  
+                    <div>ভোটার তালিকা</div>
+                  </a>
+              </li>
+              @endif
+
+
+            <li class="menu-header">
+                <span class="menu-header-text" data-i18n="Dashboard">নির্বাচনী ব্যবস্থাপনা</span>
+            </li>
+
+            <li class="menu-item {{ request()->routeIs('election.manage') ? 'active' : '' }}">
+                <a href="{{ route('election.manage') }}" class="menu-link">
+                  <i class="fa-duotone fa-thin fa-users-rays"></i>  
+                  <div>নির্বাচনী ব্যবস্থাপনা</div>
+                </a>
+            </li>
 
 
       <li>

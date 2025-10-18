@@ -195,4 +195,18 @@ class EmployeeController extends Controller
 
     }
 
+
+
+    public function employeeVoterManage(Request $req){
+
+        $voters = DB::table('employees')->get();
+
+        return view('backend.employee.voter' , compact('voters'));
+
+    }
+
+
+
+
+
 }

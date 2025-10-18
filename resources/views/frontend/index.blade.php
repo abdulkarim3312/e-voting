@@ -14,7 +14,7 @@
     }
 
     .navbar {
-      background-color: #25313d30;
+      background-color: #161e267d;
       position: fixed;
       z-index: 10000;
       width: 100%;
@@ -153,7 +153,7 @@
           <a class="nav-link" href="#candidates">প্রার্থীরা</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">নির্বাচনের ফলাফল</a>
+          <a class="nav-link" href="/results">নির্বাচনের ফলাফল</a>
         </li>
         <li class="nav-item">
           <a class="btn btn-primary btn-sm" href="/user/login" target="_blank">কর্মকর্তার লগইন</a>
@@ -221,7 +221,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 // === Countdown Config ===
-const deadline = new Date("2025-10-05T23:59:59");
+const deadline = new Date("2025-10-15T23:59:59");
 
 // Elements
 const daysEl = document.getElementById("days");
