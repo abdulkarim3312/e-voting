@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class VotingController extends Controller
 {
@@ -14,6 +15,7 @@ class VotingController extends Controller
     {
         $employeeId = session('employee_id'); 
 
+        // Fetch categories with candidates, employees, designations, offices and votes
         $categories = DB::table("categories")
             ->where('categories.status', 1)
             ->leftJoin("candidates", "categories.id", "=", "candidates.category_id")
@@ -22,7 +24,7 @@ class VotingController extends Controller
             ->leftJoin("offices", "employees.working_place", "=", "offices.id")
             ->leftJoin("votes", function ($join) use ($employeeId) {
                 $join->on("votes.candidate_id", "=", "employees.id")
-                    ->where("votes.employee_id", "=", $employeeId);
+                     ->where("votes.employee_id", "=", $employeeId);
             })
             ->select(
                 "categories.id as category_id",
@@ -40,12 +42,30 @@ class VotingController extends Controller
             ->get()
             ->groupBy("category_id");
 
+        // Attach voted count per category
         foreach ($categories as $categoryId => $items) {
             $votedCount = $items->where('voted_id', '!=', null)->count();
-            $items->first()->voted_count = $votedCount;
+            $first = $items->first();
+            if($first) {
+                $first->voted_count = $votedCount;
+            }
         }
 
-        return view('userend.candidate.view', compact('categories'));
+        // Fetch election start/end time
+        $election = DB::table('election_management')->first();
+
+        if($election) {
+            $vote_start = Carbon::parse($election->election_date . ' ' . $election->election_start_time, 'Asia/Dhaka');
+            $vote_end   = Carbon::parse($election->election_date . ' ' . $election->election_end_time, 'Asia/Dhaka');
+        } else {
+            // fallback in case election not set
+            $vote_start = Carbon::now('Asia/Dhaka');
+            $vote_end   = Carbon::now('Asia/Dhaka');
+        }
+
+        $time_now = Carbon::now('Asia/Dhaka');
+
+        return view('userend.candidate.view', compact('categories', 'vote_start', 'vote_end', 'time_now'));
     }
 
     public function store(Request $request)

@@ -38,12 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="{{ asset('lib/css/iconify-icons.css') }}"/>
     <link rel="stylesheet" href="{{ asset('lib/css/node-waves.css') }}" />
     <link rel="stylesheet" href="{{ asset('lib/css/pickr-themes.css') }}" />
-    <link href="{{ asset('lib/css/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('lib/css/core.css') }}" />
     <link rel="stylesheet" href="{{ asset('lib/css/demo.css') }}" />
     <link rel="stylesheet" href="{{ asset('lib/css/perfect-scrollbar.css') }}" />

@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\CandidateController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\DesignationController;
+use App\Http\Controllers\Backend\ElectionController;
 
 
 
@@ -100,6 +101,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::controller(EmployeeController::class)->group(function () {
+        Route::get('/employee-voter', 'employeeVoterManage')->name('employee.voter');
         Route::get('/employee-manage', 'employeeManage')->name('employee.manage');
         Route::get('/employee-create', 'employeeCreate')->name('employee.create');
         Route::post('/employee-upload', 'employeeUpload')->name('employee.upload');
@@ -107,6 +109,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         
         Route::get('/employee-edit/{id}', 'employeeEdit')->name('employee.edit');
         Route::get('/employee-delete/{id}', 'employeeDelete')->name('employee.delete');
+    });
+
+
+    Route::controller(ElectionController::class)->group(function () {
+        Route::get('/election-manage', 'electionManage')->name('election.manage');
+        Route::post('/election-update', 'electionUpdate')->name('election.update');
     });
 
 
