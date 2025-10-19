@@ -404,7 +404,7 @@
             <div class="dropdown-divider"></div>
           </li>
           <li>
-            <a class="dropdown-item" href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/pages-profile-user.html">
+            <a class="dropdown-item" href="#">
               <i class="icon-base ri ri-user-3-line icon-22px me-2"></i>
               <span class="align-middle">My Profile</span>
             </a>

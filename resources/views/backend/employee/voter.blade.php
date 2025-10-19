@@ -1,199 +1,154 @@
 @extends('backend.master')
-
-@section('title', 'ভোটার তালিকা')
+@section('title','ভোটার তালিকা')
 
 @section('styles')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
 <style>
-    /* Normal table view */
-    table.dataTable {
-        width: 100% !important;
-    }
+#voterTable, #voterTable th, #voterTable td { border:1px solid #000; border-collapse:collapse; padding:5px; text-align:center;}
+#voterTable th { background:#eee; }
+#voterTable img { width:50px; height:50px; border:1px solid #ccc; }
+.pdfHeader { text-align:center; margin-bottom:20px;}
+.pdfHeader h3,h4 { text-decoration:none;}
+@media print {
+    body * { visibility: hidden; }
+    #printBox, #printBox * { visibility: visible; }
+    #printBox { position: absolute; left:0; top:0; width:100%; }
+    #voterTable img { width:50px; height:50px; }
+    table { page-break-inside: auto; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
+}
 
-    #DataTable img {
-        width: 70px;
-        height: 70px;
-        border: 1px solid #ccc;
-    }
-
-    .table-responsive {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .pdfHeader {
-        margin-bottom: 20px;
-    }
-
-    .pdfHeader h3, .pdfHeader h4 {
-        text-align: center;
-        text-decoration: underline;
-    }
-
-    .pdfHeader span {
-        text-align: left;
-        text-decoration: underline;
-        font-weight: bold;
-    }
-
-    /* PDF mode temporary overrides */
-    #printBox.pdf-mode #DataTable,
-    #printBox.pdf-mode #DataTable td,
-    #printBox.pdf-mode #DataTable th {
-        color: #000 !important;
-        border: 1px solid #000 !important;
-        text-align: center !important;
-        page-break-inside: avoid; /* prevent row splitting */
-    }
-
-    #printBox.pdf-mode #DataTable th {
-        background-color: #f0f0f0 !important;
-        font-weight: bold;
-    }
-
-    #printBox.pdf-mode .pdfHeader h3,
-    #printBox.pdf-mode .pdfHeader h4,
-    #printBox.pdf-mode .pdfHeader span {
-        color: #000 !important;
-    }
-
-    /* Hide DataTable controls (pagination, search, length menu) in PDF mode */
-    #printBox.pdf-mode .dataTables_length,
-    #printBox.pdf-mode .dataTables_filter,
-    #printBox.pdf-mode .dataTables_info,
-    #printBox.pdf-mode .dataTables_paginate {
-        display: none !important;
-    }
+h6,.h6,h5,.h5,h4,.h4,h3,.h3,h2,.h2,h1,.h1 {
+    margin-top: 0;
+    margin-bottom: 0rem;
+    font-weight: 500;
+    line-height: 1.375;
+    color: var(--bs-heading-color)
+}
 </style>
 @endsection
 
 @section('content')
-
-<div class="page-header">
-    <div>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">হোম</a></li>
-            <li class="breadcrumb-item active" aria-current="page">ভোটার তালিকা</li>
-        </ol>
-
-        <button class="btn btn-info" onclick="generatePDF()">Print</button>
-    </div>
-</div>
-
-<hr>
-
 <div class="card">
-    @php
-        function engToBnNumber($num) {
-            $en = ['0','1','2','3','4','5','6','7','8','9'];
-            $bn = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-            return str_replace($en, $bn, $num);
-        }
-    @endphp
-
-    <div class="card-body">
-        <div id="printBox">
-            <div class="pdfHeader">
-                <h3>বাংলাদেশ ইলেকশন কমিশন অফিসার এসোসিয়েশন</h3>
-                <h4>খসড়া ভোটার তালিকা</h4>
-                <span>নির্বাচন কমিশন সচিবালয়</span>
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-2">
+                <select id="limitSelect" class="form-control form-control-sm">
+                    <option value="20">20</option>
+                    <option value="30" selected>30</option>
+                    <option value="100">100</option>
+                    <option value="all">All</option>
+                </select>
             </div>
-            <div class="table-responsive">
-                <table id="DataTable" class="table table-bordered text-nowrap mb-0 dataTable no-footer table-striped">
-                    <thead>
-                        <tr>
-                            <th>নং</th>
-                            <th>সদস্য নং</th>
-                            <th>সদস্যের নাম ও এনআইডি নং</th>
-                            <th>জেলা</th>
-                            <th>পদবী</th>
-                            <th>কর্মস্থল</th>
-                            <th>মোবাইল নম্বর</th>
-                            <th>ছবি</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($voters as $i=>$vot)
-                            <tr>
-                                <th scope="row">{{ $i+1 }}</th>
-                                <td>{{ engToBnNumber($i+1) }}</td>
-                                <td>
-                                    {{ $vot->name }}<br>
-                                    {{ engToBnNumber($vot->nid) }}
-                                </td>
-                                <td>
-                                    @php
-                                        $dist = DB::table('districts')->where('id', $vot->district)->first('name');
-                                        echo $dist->name;
-                                    @endphp
-                                </td>
-                                <td>
-                                    @php
-                                        $desg = DB::table('designations')->where('id', $vot->designation)->first('name');
-                                        echo $desg->name;
-                                    @endphp
-                                </td>
-                                <td>{{ $vot->working_place }}</td>
-                                <td>{{ engToBnNumber($vot->phone) }}</td>
-                                <td><img src="{{ asset($vot->photo) }}" alt=""></td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="col-md-3">
+                <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search Name/NID">
+            </div>
+            <div class="col-md-4">
+                <button id="searchBtn" class="btn btn-primary btn-sm">Search</button>
+                <button id="printBtn" class="btn btn-success btn-sm mx-2">Print</button>
+                {{-- <button id="pdfBtn" class="btn btn-info btn-sm">Download PDF</button> --}}
+                
             </div>
         </div>
     </div>
-</div>
 
+    <div class="card-body" id="printBox">
+        <div class="pdfHeader">
+            <h4>বাংলাদেশ ইলেকশন কমিশন অফিসার্স এসোসিয়েশন</h4>
+            <h5>খসড়া ভোটার তালিকা (জ্যেষ্ঠতার ভিত্তিতে নয়)</h5>
+            <span>নির্বাচন কমিশন সচিবালয়</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="voterTable">
+                <thead>
+                    <tr>
+                        <th>নং</th>
+                        <th>সদস্য নং</th>
+                        <th>নাম ও এনআইডি</th>
+                        <th>জেলা</th>
+                        <th>পদবী</th>
+                        <th>কর্মস্থল</th>
+                        <th>মোবাইল</th>
+                        <th>ছবি</th>
+                    </tr>
+                </thead>
+                <tbody id="voterBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.12/dist/html2canvas-pro.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
 <script>
-$(document).ready(function() {
-    $('#DataTable').DataTable({
-        responsive: true,
-        pageLength: 10
+function engToBnNumber(number){
+    const en=['0','1','2','3','4','5','6','7','8','9'];
+    const bn=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    return number.toString().split('').map(n=>bn[en.indexOf(n)]??n).join('');
+}
+
+function loadVoters(){
+    let search = $('#searchInput').val();
+    let limit = $('#limitSelect').val();
+
+    $.ajax({
+        url:"{{ route('employee.voter.fetch') }}",
+        type:"GET",
+        data:{ search: search, limit: limit },
+        beforeSend:function(){ $('#voterBody').html('<tr><td colspan="8">Loading...</td></tr>'); },
+        success:function(res){
+            let html = '';
+            let imgPromises = [];
+
+            res.forEach((vot,i)=>{
+                html += `<tr>
+                    <td>${i+1}</td>
+                    <td>${engToBnNumber(i+1)}</td>
+                    <td>${vot.name}<br>${engToBnNumber(vot.nid)}</td>
+                    <td>${vot.district_name}</td>
+                    <td>${vot.designation_name}</td>
+                    <td>${vot.working_place}</td>
+                    <td>${engToBnNumber(vot.phone)}</td>
+                    <td><img src="${vot.photo}" /></td>
+                </tr>`;
+
+                let img = new Image();
+                img.src = vot.photo;
+                imgPromises.push(new Promise((resolve)=>{img.onload=resolve;}));
+            });
+
+            $('#voterBody').html(html);
+            return Promise.all(imgPromises);
+        }
     });
+}
+
+loadVoters();
+
+$('#searchBtn').click(()=>loadVoters());
+
+// Print
+$('#printBtn').click(function(){
+    // Wait a short delay for all images
+    setTimeout(()=>{ window.print(); }, 300);
 });
 
-async function generatePDF() {
-    $('.processing').show();
+document.getElementById('searchBtn').addEventListener('click', function () {
+    let limit = document.getElementById('limit').value;
+    fetch(`{{ route('employee.voter.fetch') }}?limit=${limit}`)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('voterList').innerHTML = html;
+        });
+});
 
-    const printBox = document.getElementById("printBox");
-    printBox.classList.add('pdf-mode');
-
-    // Wait for table redraw
-    await new Promise(r => setTimeout(r, 500));
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("l", "mm", "a4"); // Portrait
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    // Capture canvas
-    const canvas = await html2canvas(printBox, { scale: 3, useCORS: true });
-    const imgData = canvas.toDataURL("image/png");
-
-    // Scale to PDF width
-    const pdfWidth = pageWidth - 20;
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    let heightLeft = pdfHeight;
-    let position = 10;
-
-    // প্রথম page
-    pdf.addImage(imgData, 'webp', 10, position, pdfWidth, 180);
-
-    pdf.save("voters_list.pdf");
-
-    printBox.classList.remove('pdf-mode');
-    $('.processing').hide();
-}
+// PDF Download (page-wise)
+$('#pdfBtn').click(function(){
+    let limit = $('#limitSelect').val();
+    let search = $('#searchInput').val();
+    let url = `{{ route('employee.voter.pdf') }}?limit=${limit}&search=${search}`;
+    window.open(url, '_blank');
+});
 </script>
 @endsection
