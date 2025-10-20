@@ -14,7 +14,6 @@ class CandidateController extends Controller
 
     public function candidateManage(Request $req) {
         if ($req->ajax()) {
-            // Join categories এবং employees table যাতে readable name আসে
             $data = DB::table('candidates')
                 ->leftJoin('categories', 'candidates.category_id', '=', 'categories.id')
                 ->leftJoin('employees', 'candidates.employee_id', '=', 'employees.id')
@@ -26,6 +25,16 @@ class CandidateController extends Controller
                 );
 
             return DataTables::of($data)
+                ->filter(function ($query) use ($req) {
+                    if ($search = $req->get('search')['value']) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('categories.name', 'like', "%{$search}%")
+                            ->orWhere('employees.name', 'like', "%{$search}%")
+                            ->orWhere('employees.nid', 'like', "%{$search}%")
+                            ->orWhere('candidates.election_year', 'like', "%{$search}%");
+                        });
+                    }
+                })
                 ->addIndexColumn()
                 ->addColumn('category', function($row){
                     return $row->category_name ?? '-';

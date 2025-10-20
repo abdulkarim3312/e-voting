@@ -111,6 +111,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/employee-delete/{id}', 'employeeDelete')->name('employee.delete');
     });
 
+    Route::get('employee/voter', [EmployeeController::class,'employeeVoterManage'])->name('employee.voter.manage');
+
+    Route::get('employee/voter/fetch', [EmployeeController::class,'employeeVoterFetch'])->name('employee.voter.fetch');
+    Route::get('/employee-voter/pdf', [EmployeeController::class, 'downloadVoterPdf'])->name('employee.voter.pdf');
+
 
     Route::controller(ElectionController::class)->group(function () {
         Route::get('/election-manage', 'electionManage')->name('election.manage');

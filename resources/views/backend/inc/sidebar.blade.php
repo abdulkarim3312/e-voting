@@ -214,28 +214,13 @@
             <li class="menu-header">
                 <span class="menu-header-text" data-i18n="Dashboard">নির্বাচনী ব্যবস্থাপনা</span>
             </li>
-
             <li class="menu-item {{ request()->routeIs('election.manage') ? 'active' : '' }}">
                 <a href="{{ route('election.manage') }}" class="menu-link">
                   <i class="fa-duotone fa-thin fa-users-rays"></i>  
                   <div>নির্বাচনী ব্যবস্থাপনা</div>
                 </a>
             </li>
-
-
-      <li>
-        <div class="help-box text-center">
-            <img src="{{ asset('userend/images/coffee-cup.svg') }}" height="90" alt="Helper Icon Image">
-            <h5 class="mt-3 fw-semibold fs-16">Need Support?</h5>
-            <p class="mb-3 text-muted">Contact with us for any technical support</p>
-            <a href="https://solveitbd.com" target="_blank" class="btn btn-danger btn-sm">Contact</a>
-        </div>
-      </li>
-            
     </ul>
-
-
-
 </aside>
 
 <div class="menu-mobile-toggler d-xl-none rounded-1">

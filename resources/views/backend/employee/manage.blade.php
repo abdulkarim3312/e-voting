@@ -21,17 +21,15 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table id="employee-table" class="table table-bordered table-striped table-hover text-nowrap mb-0 w-100">
+                <table id="data-table" class="table table-bordered">
                     <thead class="thead-light">
                         <tr>
-                            <th>ক্রমিক</th>
                             <th>নাম</th>
-                            <th>পদবী</th>
+                            <th width="15%">পদবী</th>
                             <th>এনআইডি</th>
                             <th>মোবাইল</th>
-                            <th>ইমেইল</th>
-                            <th>তৈরির সময়</th>
-                            <th>অ্যাকশন</th>
+                            <th width="15%">ইমেইল</th>
+                            <th width="13%">অ্যাকশন</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -44,19 +42,17 @@
 @section('scripts')
 <script>
 $(function () {
-    $('#employee-table').DataTable({
+    $('#data-table').DataTable({
         processing: true,
         serverSide: true,
-        scrollX: true, 
+        scrollX: false, 
         ajax: "{{ route('employee.manage') }}",
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, width:"8%" },
             { data: 'name', name: 'name', width:"15%" },
-            { data: 'designation_name', name: 'designation_name', width:"20%" },
+            { data: 'designation_name', name: 'designation_name', width:"14%" },
             { data: 'nid', name: 'nid', width:"12%" },
-            { data: 'phone', name: 'phone', width:"12%" },
-            { data: 'email', name: 'email', width:"18%" },
-            { data: 'created_at', name: 'created_at', width:"15%" },
+            { data: 'phone', name: 'phone' },
+            { data: 'email', name: 'email' },
             { data: 'action', name: 'action', orderable: false, searchable: false, width:"15%" }
         ],
     });
