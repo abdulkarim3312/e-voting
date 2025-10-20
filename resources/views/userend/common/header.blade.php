@@ -319,26 +319,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome Dear!</h6>
-                        </div>
-
-                        <!-- item-->
                         <a href="/user/profile" class="dropdown-item">
                             <i class="fa-duotone fa-solid fa-user fs-17 me-1"></i>
                             <span class="align-middle">My Profile</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                           <i class="fa-duotone fa-thin fa-gear fa-spin fs-17 me-1"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                           <i class="fa-duotone fa-thin fa-headset fa-bounce fs-17 me-1"></i>
-                            <span class="align-middle">Support</span>
                         </a>
 
                         <div class="dropdown-divider"></div>

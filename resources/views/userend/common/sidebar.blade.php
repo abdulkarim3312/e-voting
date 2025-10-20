@@ -37,7 +37,7 @@
                 <a href="/user/dashboard" class="side-nav-link">
                     <span class="menu-icon"><i class="fa-duotone fa-light fa-house"></i></span>
                     <span class="menu-text"> ড্যাশবোর্ড </span>
-                    <span class="badge bg-success rounded-pill">5</span>
+                    <span class="badge bg-success rounded-pill"></span>
                 </a>
             </li>
 
@@ -165,15 +165,5 @@
                 </div>
             </li>
         </ul>
-
-        <!-- Help Box -->
-        <div class="help-box text-center">
-            <img src="{{ asset('userend/images/coffee-cup.svg') }}" height="90" alt="Helper Icon Image" />
-            <h5 class="mt-3 fw-semibold fs-16">Need Support?</h5>
-            <p class="mb-3 text-muted">Contact with us for any technical support</p>
-            <a href="https://solveitbd.com" target="_blank" class="btn btn-danger btn-sm">Contact</a>
-        </div>
-
-        <div class="clearfix"></div>
     </div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Exception;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -19,18 +20,35 @@ class EmployeeController extends Controller
         $query = DB::table('employees')
             ->join('districts', 'employees.district', '=', 'districts.id')
             ->join('designations', 'employees.designation', '=', 'designations.id')
-            ->select('employees.id', 'employees.name', 'employees.nid','employees.email','employees.phone', 'districts.name as district_name','designations.name as designation_name', 'employees.created_at');
+            ->select(
+                'employees.id', 
+                'employees.name', 
+                'employees.nid',
+                'employees.email',
+                'employees.phone', 
+                'districts.name as district_name',
+                'designations.name as designation_name', 
+                'employees.created_at'
+            );
 
         if ($req->ajax()) {
             return DataTables::of($query)
+                ->filter(function ($query) use ($req) {
+                    if ($search = $req->get('search')['value']) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('employees.name', 'like', "%{$search}%")
+                            ->orWhere('designations.name', 'like', "%{$search}%")
+                            ->orWhere('employees.nid', 'like', "%{$search}%")
+                            ->orWhere('employees.phone', 'like', "%{$search}%")
+                            ->orWhere('employees.email', 'like', "%{$search}%");
+                        });
+                    }
+                })
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($row) {
-                    if ($row->created_at) {
-                        return \Carbon\Carbon::parse($row->created_at)
+                    return $row->created_at ? \Carbon\Carbon::parse($row->created_at)
                             ->timezone('Asia/Dhaka')
-                            ->diffForHumans();
-                    }
-                    return '';
+                            ->diffForHumans() : '';
                 })
                 ->addColumn('action', function ($row) {
                     $editUrl = route('employee.edit', $row->id);
@@ -203,6 +221,57 @@ class EmployeeController extends Controller
 
         return view('backend.employee.voter' , compact('voters'));
 
+    }
+
+
+    public function employeeVoterFetch(Request $req){
+        $query = DB::table('employees')
+            ->join('districts','employees.district','=','districts.id')
+            ->join('designations','employees.designation','=','designations.id')
+            ->select('employees.name','employees.nid','employees.phone','employees.working_place','employees.photo','districts.name as district_name','designations.name as designation_name');
+
+        if($req->search){
+            $query->where('employees.name','like','%'.$req->search.'%')
+                ->orWhere('employees.nid','like','%'.$req->search.'%');
+        }
+
+        if($req->limit && $req->limit != 'all'){
+            $query->limit($req->limit);
+        }
+
+        $voters = $query->get()->map(function($item){
+            $item->photo = asset($item->photo); // full URL
+            return $item;
+        });
+
+        return response()->json($voters);
+    }
+
+
+    public function downloadVoterPdf(Request $request)
+    {
+        $limit = $request->limit;
+
+        $query = DB::table('employees')
+            ->join('districts', 'employees.district', '=', 'districts.id')
+            ->join('designations', 'employees.designation', '=', 'designations.id')
+            ->select(
+                'employees.*',
+                'districts.name as district_name',
+                'designations.name as designation_name'
+            )
+            ->orderBy('employees.id', 'asc');
+
+        if ($limit != 'all') {
+            $query->limit((int)$limit);
+        }
+
+        $voters = $query->get();
+
+        $pdf = Pdf::loadView('backend.employee.voter_pdf', compact('voters'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('voter_list.pdf');
     }
 
 
